@@ -12,17 +12,14 @@ class Options extends StatelessWidget {
       header: const Text('Opções'),
       children: [
         CupertinoListTile(
-          leading: const Icon(CupertinoIcons.add_circled_solid),
           title: const Text('Novo Jogo'),
           onTap: () => _newGame(context),
         ),
         CupertinoListTile(
-          leading: const Icon(CupertinoIcons.add_circled_solid),
           title: const Text('Novo Time'),
           onTap: () => _openDialog(context),
         ),
         CupertinoListTile(
-          leading: const Icon(CupertinoIcons.add_circled_solid),
           title: const Text('Nova Rodada'),
           onTap: () => _nextRound(context),
         ),

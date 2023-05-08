@@ -23,6 +23,7 @@ class Ranking extends StatelessWidget {
             for (var team in game.teams.reversed)
               CupertinoListTile(
                 title: Text(team.name),
+                leading: const Icon(CupertinoIcons.add_circled_solid),
                 subtitle: Text('${team.retrieveScore().toString()} pontos'),
                 onTap: () => {
                   Navigator.pushNamed(context, 'addScore',

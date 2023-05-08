@@ -30,13 +30,41 @@ class Game extends ChangeNotifier {
   }
 
   addScore(Team team, ScoreType scoreType) {
-    teams.firstWhere((t) => t.name == team.name).rounds.last.scores.add(scoreType);
+    teams
+        .firstWhere((t) => t.name == team.name)
+        .rounds
+        .last
+        .scores
+        .add(scoreType);
     _sortRank();
     notifyListeners();
   }
 
   removeScore(Team team, ScoreType scoreType) {
-    teams.firstWhere((t) => t.name == team.name).rounds.last.scores.remove(scoreType);
+    teams
+        .firstWhere((t) => t.name == team.name)
+        .rounds
+        .last
+        .scores
+        .remove(scoreType);
+    _sortRank();
+    notifyListeners();
+  }
+
+  updateScore(Team team, ScoreType scoreType, int? needAdd) {
+    Team teamFounded = teams
+        .firstWhere((t) => t.name == team.name);
+
+    Round lastRound = teamFounded.rounds.last;
+
+    List<ScoreType> scores = lastRound.scores;
+
+    scores.removeWhere((score) => score == scoreType);
+
+    for (var quantity = 0; quantity < (needAdd ?? 0); quantity++) {
+      scores.add(scoreType);
+    }
+
     _sortRank();
     notifyListeners();
   }
@@ -51,6 +79,7 @@ class Game extends ChangeNotifier {
   }
 
   _sortRank() {
-    teams.sort((team1, team2) => team1.retrieveScore().compareTo(team2.retrieveScore()));
+    teams.sort((team1, team2) =>
+        team1.retrieveScore().compareTo(team2.retrieveScore()));
   }
 }

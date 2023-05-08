@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tranca_cool/domain/game.dart';
 import 'package:tranca_cool/domain/score_type.dart';
 import 'package:tranca_cool/domain/team.dart';
+import 'package:tranca_cool/pages/add_score/score_input.dart';
 
 class AddScoreArgs {
   Team team;
@@ -30,33 +31,8 @@ class _AddScoreState extends State<AddScore> {
       child: SafeArea(
         child: ListView(
           children: [
-            teamInfo(args.team),
             for (var score in ScoreType.values)
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: CupertinoButton(
-                        color: CupertinoColors.activeGreen,
-                        child: Text(score.name),
-                        onPressed: () => args.game.addScore(args.team, score),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: CupertinoButton(
-                        color: CupertinoColors.destructiveRed,
-                        child: Text(score.name),
-                        onPressed: () =>
-                            args.game.removeScore(args.team, score),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ScoreInput(score, args.team, args.game),
             Padding(
               padding: const EdgeInsets.all(5),
               child: CupertinoButton(
@@ -72,24 +48,5 @@ class _AddScoreState extends State<AddScore> {
         ),
       ),
     );
-  }
-
-  Widget teamInfo(Team team) {
-    return Consumer<Game>(builder: (context, game, child) {
-      return Column(
-        children: [
-          Text(
-            'Time ${team.name}',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-            ),
-          ),
-          for (var score in team.rounds.last.getScores())
-            Text(
-                '(${score.quantity}x) ${score.type.name} - ${score.type.value * score.quantity}'),
-        ],
-      );
-    });
   }
 }
